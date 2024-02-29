@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import prisma from "../prisma/prismaClient";  
+import createError from "http-errors"; 
 
 dotenv.config();
 
@@ -15,6 +16,30 @@ app.get("/", async (req: Request, res: Response) => {
         console.log("error", error) ; 
     }
 });
+
+app.get('/example',async (req:Request, res:Response, next:express.NextFunction)=>{
+    try{
+        throw createError(404,'resource not found'); 
+    }catch(err){
+        next(err); 
+    }
+})
+
+app.use(async(req:Request , res:Response , next:express.NextFunction)=>{
+    const error = createError(404,'not found'); 
+    next(error); 
+})
+
+app.use((err:createError.HttpError, req:Request, res:Response,next:express.NextFunction)=>{
+    res.status(err.status || 500) 
+    res.send({
+        error:{
+            status : err.status || 500 , 
+            message : err.message
+        }
+    })
+})
+
 
 prisma.$connect()
 .then(()=>{
