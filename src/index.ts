@@ -2,11 +2,13 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import prisma from "../prisma/prismaClient";  
 import createError from "http-errors"; 
+import validateRoutes from "../routes/validate"; 
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
+app.use(express.json());
 
 app.get("/", async (req: Request, res: Response) => {
     try{
@@ -19,11 +21,13 @@ app.get("/", async (req: Request, res: Response) => {
 
 app.get('/example',async (req:Request, res:Response, next:express.NextFunction)=>{
     try{
-        throw createError(404,'resource not found'); 
+        throw createError(400,'resource not found'); 
     }catch(err){
         next(err); 
     }
 })
+
+app.use("/auth",validateRoutes); 
 
 app.use(async(req:Request , res:Response , next:express.NextFunction)=>{
     const error = createError(404,'not found'); 
