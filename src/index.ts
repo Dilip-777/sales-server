@@ -4,6 +4,7 @@ import prisma from "../prisma/prismaClient";
 import createError from "http-errors";
 import validateRoutes from "../routes/validate";
 import authRouter from "../routes/auth";
+import itemsRouter from "../routes/items";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.get(
 );
 
 app.use("/auth", authRouter);
+app.use("/items", itemsRouter);
 
 app.use(async (req: Request, res: Response, next: express.NextFunction) => {
   const error = createError(404, "not found");
