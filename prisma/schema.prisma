@@ -13,8 +13,98 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-    id String @id @default(cuid())
-    name String 
-    age Int
+model User {
+  id       String  @id @default(cuid())
+  username String  @unique
+  email    String  @unique
+  password String
+  zoneId   String
+  role     Role    @default(SALESMAN)
+  zone     Zone    @relation(fields: [zoneId], references: [id])
+  orders   Order[]
+}
+
+model Item {
+  id          String        @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  weight      Float
+  unit        String
+  category    String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  orderedItem OrderedItem[]
+}
+
+model Unit {
+  id     String @id @default(cuid())
+  name   String
+  status status @default(active)
+}
+
+model Company {
+  id      String  @id @default(cuid())
+  name    String
+  address String
+  zoneId  String
+  status  status  @default(active)
+  orders  Order[]
+  zone    Zone    @relation(fields: [zoneId], references: [id])
+}
+
+model Categories {
+  id     String @id @default(cuid())
+  name   String
+  status status @default(active)
+}
+
+model Zone {
+  id        String    @id @default(cuid())
+  name      String
+  status    status    @default(active)
+  users     User[]
+  companies Company[]
+}
+
+enum status {
+  active
+  inactive
+}
+
+model OrderedItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  itemId    String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  item      Item     @relation(fields: [itemId], references: [id])
+  Order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id        String        @id @default(cuid())
+  userId    String
+  companyId String
+  total     Float
+  status    OrderStatus   @default(ordered)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  items     OrderedItem[]
+  user      User          @relation(fields: [userId], references: [id])
+  company   Company       @relation(fields: [companyId], references: [id])
+}
+
+enum OrderStatus {
+  ordered
+  inProgress
+  done
+  canceled
+}
+
+enum Role {
+  SALESMAN
+  ADMIN
+  DISPATCHER
 }
