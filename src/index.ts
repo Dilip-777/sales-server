@@ -6,7 +6,7 @@ import validateRoutes from "../routes/validate";
 import cors from "cors";
 import {
     authRouter,itemsRouter,unitRouter,companyRouter,zoneRouter,
-    categoryRouter,
+    categoryRouter, userRouter,
 }from "../routes";
 
 dotenv.config();
@@ -25,23 +25,13 @@ app.get("/", async (req: Request, res: Response) => {
   }
 });
 
-app.get(
-  "/example",
-  async (req: Request, res: Response, next: express.NextFunction) => {
-    try {
-      throw createError(400, "resource not found");
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
 app.use("/auth", authRouter);
 app.use("/item", itemsRouter);
 app.use("/unit", unitRouter);
 app.use("/company", companyRouter);
 app.use("/zone", zoneRouter);
 app.use("/category", categoryRouter);
+app.use("/user",userRouter); 
 
 app.use(async (req: Request, res: Response, next: express.NextFunction) => {
   const error = createError(404, "not found");
