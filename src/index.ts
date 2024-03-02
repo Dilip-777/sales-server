@@ -12,6 +12,7 @@ import {
   zoneRouter,
   categoryRouter,
   orderRouter,
+  userRouter,
 } from "../routes";
 
 dotenv.config();
@@ -37,6 +38,7 @@ app.use("/company", companyRouter);
 app.use("/zone", zoneRouter);
 app.use("/category", categoryRouter);
 app.use("/order", orderRouter);
+app.use("/user", userRouter);
 
 app.use(async (req: Request, res: Response, next: express.NextFunction) => {
   const error = createError(404, "not found");

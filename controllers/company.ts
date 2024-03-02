@@ -3,7 +3,7 @@ import prisma from "../prisma/prismaClient";
 
 export const createCompany = async (req: Request, res: Response) => {
   try {
-    const { id, name, address, zoneId } = req.body;
+    const { id, name, address, zoneId, status } = req.body;
     if (id) {
       const company = await prisma.company.update({
         where: {
@@ -13,6 +13,7 @@ export const createCompany = async (req: Request, res: Response) => {
           name: name,
           address: address,
           zoneId: zoneId,
+          status,
         },
       });
       return res.status(200).json({ success: true, company: company });
@@ -22,6 +23,7 @@ export const createCompany = async (req: Request, res: Response) => {
         name: name,
         address: address,
         zoneId: zoneId,
+        status,
       },
     });
     res.status(201).json({ success: true, company: company });
@@ -32,7 +34,25 @@ export const createCompany = async (req: Request, res: Response) => {
 
 export const getCompanies = async (req: Request, res: Response) => {
   try {
+    const { userId } = req.query;
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId as string,
+      },
+    });
+
+    const where: any = {};
+
+    if (!user) {
+      return res.status(400).json({ success: false, error: "UnAuthorised" });
+    }
+
+    if (user.role === "SALESMAN") {
+      where.zoneId = user.zoneId;
+    }
+
     const companies = await prisma.company.findMany({
+      where,
       include: {
         zone: true,
       },

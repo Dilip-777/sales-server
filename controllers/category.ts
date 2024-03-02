@@ -3,7 +3,7 @@ import prisma from "../prisma/prismaClient";
 
 export const createCategory = async (req: Request, res: Response) => {
   try {
-    const { id, name } = req.body;
+    const { id, name, status } = req.body;
     if (id) {
       const category = await prisma.categories.update({
         where: {
@@ -11,6 +11,7 @@ export const createCategory = async (req: Request, res: Response) => {
         },
         data: {
           name: name,
+          status: status,
         },
       });
       return res.status(200).json({ success: true, category });
@@ -18,6 +19,7 @@ export const createCategory = async (req: Request, res: Response) => {
     const category = await prisma.categories.create({
       data: {
         name: name,
+        status: status,
       },
     });
     res.status(201).json({ success: true, category: category });

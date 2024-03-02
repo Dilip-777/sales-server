@@ -4,7 +4,23 @@ import bcrypt from "bcrypt";
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { username, email, password, role , zoneId } = req.body;
+    const { id, username, email, password, role, zoneId } = req.body;
+
+    if (id) {
+      const user = await prisma.user.update({
+        where: {
+          id: id,
+        },
+        data: {
+          username: username,
+          email: email,
+          role: role,
+          zoneId: zoneId,
+        },
+      });
+      return res.status(200).json({ success: true, user: user });
+    }
+
     const isExists = await prisma.user.findFirst({
       where: {
         OR: [
@@ -29,14 +45,13 @@ export const register = async (req: Request, res: Response) => {
         email: email,
         password: hashedPassword,
         zoneId: zoneId,
-        role: role, 
+        role: role,
       },
     });
     res.status(201).json({ success: true, user: user });
-
   } catch (error) {
     res.status(400).json({ success: false, error: error });
-    console.log(error) ; 
+    console.log(error);
   }
 };
 

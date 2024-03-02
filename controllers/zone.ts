@@ -3,7 +3,7 @@ import prisma from "../prisma/prismaClient";
 
 export const createZone = async (req: Request, res: Response) => {
   try {
-    const { id, name } = req.body;
+    const { id, name, status } = req.body;
     if (id) {
       const zone = await prisma.zone.update({
         where: {
@@ -11,6 +11,7 @@ export const createZone = async (req: Request, res: Response) => {
         },
         data: {
           name: name,
+          status: status,
         },
       });
       return res.status(200).json({ success: true, zone: zone });
@@ -18,6 +19,7 @@ export const createZone = async (req: Request, res: Response) => {
     const zone = await prisma.zone.create({
       data: {
         name: name,
+        status,
       },
     });
     res.status(201).json({ success: true, zone: zone });
@@ -48,5 +50,3 @@ export const deleteZone = async (req: Request, res: Response) => {
     res.status(400).json({ success: false, error: error });
   }
 };
-
-

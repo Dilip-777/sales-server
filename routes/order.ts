@@ -13,6 +13,6 @@ orderRouter.get("/getOrders", getOrders);
 orderRouter.post("/create", createOrder);
 orderRouter.get("/getOrder/:id", getOrder);
 orderRouter.put("/update", updateOrder);
-orderRouter.post("/delete/:id", deleteOrder);
+orderRouter.delete("/delete", deleteOrder);
 
 export default orderRouter;
