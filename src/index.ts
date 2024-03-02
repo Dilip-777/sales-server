@@ -4,9 +4,9 @@ import prisma from "../prisma/prismaClient";
 import createError from "http-errors";
 import validateRoutes from "../routes/validate";
 import cors from "cors";
-import categoryRouter from "../routes/category";
 import {
-    authRouter,itemsRouter,unitRouter,companyRouter,zoneRouter
+    authRouter,itemsRouter,unitRouter,companyRouter,zoneRouter,
+    categoryRouter,
 }from "../routes";
 
 dotenv.config();
@@ -37,18 +37,11 @@ app.get(
 );
 
 app.use("/auth", authRouter);
-<<<<<<< HEAD
 app.use("/item", itemsRouter);
 app.use("/unit", unitRouter);
 app.use("/company", companyRouter);
 app.use("/zone", zoneRouter);
 app.use("/category", categoryRouter);
-=======
-app.use("/items", itemsRouter);
-app.use("/unit",unitRouter); 
-app.use("/company",companyRouter); 
-app.use("/zone",zoneRouter); 
->>>>>>> ea1e619 (created zone apis)
 
 app.use(async (req: Request, res: Response, next: express.NextFunction) => {
   const error = createError(404, "not found");
