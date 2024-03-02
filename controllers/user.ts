@@ -3,7 +3,7 @@ import prisma from "../prisma/prismaClient";
 
 export const editUser= async (req: Request, res: Response) => {
   try {
-    const { id, username, email, role,zone, zoneId} = req.body;
+    const { id, username, email, role, zoneId} = req.body;
     const user = await prisma.user.update({
         where:{
             id: id,
@@ -12,7 +12,6 @@ export const editUser= async (req: Request, res: Response) => {
             username:username,
             email:email,
             role: role, 
-            zone:zone,
             zoneId: zoneId, 
         }
     }) 
@@ -24,7 +23,11 @@ export const editUser= async (req: Request, res: Response) => {
 
 export const getUsers= async (req: Request, res: Response) => {
   try {
-    const users= await prisma.user.findMany();
+      const users= await prisma.user.findMany({
+          include:{
+              zone:true,
+          },
+      });
     res.status(200).json({ success: true, users: users });
   } catch (error) {
     res.status(400).json({ success: false, error: error });
