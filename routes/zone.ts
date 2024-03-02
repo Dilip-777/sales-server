@@ -3,7 +3,6 @@ import express from "express";
 import {
   createZone,
   deleteZone,
-  getZone,
   getZones,
 } from "../controllers/zone";
 
