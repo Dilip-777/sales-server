@@ -4,7 +4,13 @@ import prisma from "../prisma/prismaClient";
 import createError from "http-errors";
 import validateRoutes from "../routes/validate";
 import cors from "cors";
-import { authRouter, itemsRouter, unitRouter, companyRouter } from "../routes";
+import {
+  authRouter,
+  itemsRouter,
+  unitRouter,
+  companyRouter,
+  orderRouter,
+} from "../routes";
 import zoneRouter from "../routes/zone";
 import categoryRouter from "../routes/category";
 
@@ -41,6 +47,7 @@ app.use("/unit", unitRouter);
 app.use("/company", companyRouter);
 app.use("/zone", zoneRouter);
 app.use("/category", categoryRouter);
+app.use("/order", orderRouter);
 
 app.use(async (req: Request, res: Response, next: express.NextFunction) => {
   const error = createError(404, "not found");
