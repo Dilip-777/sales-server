@@ -4,8 +4,7 @@ import bcrypt from "bcrypt";
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { username, email, password, zoneId } = req.body;
-
+    const { username, email, password, role , zoneId } = req.body;
     const isExists = await prisma.user.findFirst({
       where: {
         OR: [
@@ -30,11 +29,14 @@ export const register = async (req: Request, res: Response) => {
         email: email,
         password: hashedPassword,
         zoneId: zoneId,
+        role: role, 
       },
     });
     res.status(201).json({ success: true, user: user });
+
   } catch (error) {
     res.status(400).json({ success: false, error: error });
+    console.log(error) ; 
   }
 };
 

@@ -9,10 +9,9 @@ import {
   itemsRouter,
   unitRouter,
   companyRouter,
-  orderRouter,
+  zoneRouter,
+  categoryRouter,
 } from "../routes";
-import zoneRouter from "../routes/zone";
-import categoryRouter from "../routes/category";
 
 dotenv.config();
 
@@ -30,24 +29,12 @@ app.get("/", async (req: Request, res: Response) => {
   }
 });
 
-app.get(
-  "/example",
-  async (req: Request, res: Response, next: express.NextFunction) => {
-    try {
-      throw createError(400, "resource not found");
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
 app.use("/auth", authRouter);
 app.use("/item", itemsRouter);
 app.use("/unit", unitRouter);
 app.use("/company", companyRouter);
 app.use("/zone", zoneRouter);
 app.use("/category", categoryRouter);
-app.use("/order", orderRouter);
 
 app.use(async (req: Request, res: Response, next: express.NextFunction) => {
   const error = createError(404, "not found");
