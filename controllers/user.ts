@@ -14,7 +14,8 @@ export const editUser= async (req: Request, res: Response) => {
             role: role, 
             zone:zone,
             zoneId: zoneId, 
-    }); 
+        }
+    }) 
     res.status(201).json({ success: true, user: user});
   } catch (error) {
     res.status(400).json({ success: false, error: error });
@@ -23,7 +24,7 @@ export const editUser= async (req: Request, res: Response) => {
 
 export const getUsers= async (req: Request, res: Response) => {
   try {
-    const Users= await prisma.user.findMany();
+    const users= await prisma.user.findMany();
     res.status(200).json({ success: true, users: users });
   } catch (error) {
     res.status(400).json({ success: false, error: error });
