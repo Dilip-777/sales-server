@@ -3,14 +3,16 @@ import dotenv from "dotenv";
 import prisma from "../prisma/prismaClient";
 import createError from "http-errors";
 import validateRoutes from "../routes/validate";
-import {
-    authRouter,itemsRouter,unitRouter,companyRouter
-}from "../routes";
+import cors from "cors";
+import { authRouter, itemsRouter, unitRouter, companyRouter } from "../routes";
+import zoneRouter from "../routes/zone";
+import categoryRouter from "../routes/category";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
+app.use(cors());
 app.use(express.json());
 
 app.get("/", async (req: Request, res: Response) => {
@@ -34,9 +36,11 @@ app.get(
 );
 
 app.use("/auth", authRouter);
-app.use("/items", itemsRouter);
-app.use("/unit",unitRouter); 
-app.use("/company",companyRouter); 
+app.use("/item", itemsRouter);
+app.use("/unit", unitRouter);
+app.use("/company", companyRouter);
+app.use("/zone", zoneRouter);
+app.use("/category", categoryRouter);
 
 app.use(async (req: Request, res: Response, next: express.NextFunction) => {
   const error = createError(404, "not found");
