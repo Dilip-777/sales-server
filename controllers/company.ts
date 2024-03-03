@@ -32,6 +32,18 @@ export const createCompany = async (req: Request, res: Response) => {
   }
 };
 
+export const createManyCompanies = async (req: Request, res: Response) => {
+  try {
+    const { companies } = req.body;
+    await prisma.company.createMany({
+      data: companies,
+    });
+    res.status(201).json({ success: true });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error });
+  }
+};
+
 export const getCompanies = async (req: Request, res: Response) => {
   try {
     const { userId } = req.query;
