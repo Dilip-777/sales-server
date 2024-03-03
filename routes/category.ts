@@ -8,6 +8,6 @@ import {
 const categoryRouter = express.Router();
 categoryRouter.get("/getCategories", getCategories);
 categoryRouter.post("/create", createCategory);
-categoryRouter.post("/delete/:id", deleteCategory);
+categoryRouter.delete("/delete/:id", deleteCategory);
 
 export default categoryRouter;

@@ -29,6 +29,7 @@ export const createCompany = async (req: Request, res: Response) => {
     res.status(201).json({ success: true, company: company });
   } catch (error) {
     res.status(400).json({ success: false, error: error });
+    console.log(error); 
   }
 };
 
