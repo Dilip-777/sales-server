@@ -8,6 +8,6 @@ import {
 const unitRouter = express.Router(); 
 unitRouter.get("/getUnits", getUnits); 
 unitRouter.post("/create", createUnit); 
-unitRouter.post("/delete/:id",deleteUnit); 
+unitRouter.delete("/delete/:id",deleteUnit); 
 
 export default unitRouter; 
