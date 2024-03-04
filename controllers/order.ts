@@ -8,13 +8,13 @@ const uid = new ShortUniqueId({ length: 10 });
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const { companyId, requiredBy, total, totalweight, items, userId } =
+    const { customerId, requiredBy, total, totalweight, items, userId } =
       req.body;
 
     await prisma.order.create({
       data: {
         id: uid.rnd(),
-        companyId,
+        customerId,
         requiredBy,
         total,
         totalweight,
@@ -37,7 +37,7 @@ export const updateOrder = async (req: Request, res: Response) => {
   try {
     const {
       id,
-      companyId,
+      customerId,
       requiredBy,
       total,
       totalweight,
@@ -57,7 +57,7 @@ export const updateOrder = async (req: Request, res: Response) => {
         id: id,
       },
       data: {
-        companyId,
+        customerId,
         requiredBy,
         total,
         totalweight,
@@ -99,7 +99,7 @@ export const getOrders = async (req: Request, res: Response) => {
       include: {
         user: true,
         items: true,
-        company: true,
+        customer: true,
       },
       orderBy: {
         createdAt: "desc",
@@ -142,7 +142,7 @@ export const getOrderItems = async (req: Request, res: Response) => {
     include: {
       Order: {
         include: {
-          company: true,
+          customer: true,
           user: true,
         },
       },
@@ -170,7 +170,7 @@ export const getOrder = async (req: Request, res: Response) => {
             item: true,
           },
         },
-        company: true,
+        customer: true,
         user: true,
       },
     });

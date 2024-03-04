@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { id, username, email, password, role, zoneId } = req.body;
+    let { id, username, email, password, role, zoneId } = req.body;
 
     if (id) {
       const user = await prisma.user.update({
@@ -37,6 +37,10 @@ export const register = async (req: Request, res: Response) => {
       return res
         .status(400)
         .json({ error: "Username or email already exists" });
+    }
+    const u = await prisma.user.findFirst();
+    if (!u) {
+      role = "MANAGER";
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({

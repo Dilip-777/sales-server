@@ -8,7 +8,7 @@ import {
   authRouter,
   itemsRouter,
   unitRouter,
-  companyRouter,
+  customerRouter,
   zoneRouter,
   categoryRouter,
   orderRouter,
@@ -34,7 +34,7 @@ app.get("/", async (req: Request, res: Response) => {
 app.use("/auth", authRouter);
 app.use("/item", itemsRouter);
 app.use("/unit", unitRouter);
-app.use("/company", companyRouter);
+app.use("/customer", customerRouter);
 app.use("/zone", zoneRouter);
 app.use("/category", categoryRouter);
 app.use("/order", orderRouter);

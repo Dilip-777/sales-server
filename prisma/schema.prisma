@@ -43,7 +43,7 @@ model Unit {
   status status @default(active)
 }
 
-model Company {
+model Customer {
   id      String  @id @default(cuid())
   name    String
   address String
@@ -60,11 +60,11 @@ model Categories {
 }
 
 model Zone {
-  id        String    @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  status    status    @default(active)
+  status    status     @default(active)
   users     User[]
-  companies Company[]
+  customers Customer[]
 }
 
 enum status {
@@ -87,7 +87,7 @@ model OrderedItem {
 model Order {
   id          String        @id @default(cuid())
   userId      String
-  companyId   String
+  customerId  String
   total       Float
   requiredBy  String
   totalweight Float
@@ -96,7 +96,7 @@ model Order {
   updatedAt   DateTime      @updatedAt
   items       OrderedItem[]
   user        User          @relation(fields: [userId], references: [id])
-  company     Company       @relation(fields: [companyId], references: [id])
+  customer    Customer      @relation(fields: [customerId], references: [id])
 }
 
 enum OrderStatus {
@@ -108,6 +108,6 @@ enum OrderStatus {
 
 enum Role {
   SALESMAN
-  ADMIN
+  MANAGER
   DISPATCHER
 }

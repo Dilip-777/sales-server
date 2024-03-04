@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import prisma from "../prisma/prismaClient";
 
-export const createCompany = async (req: Request, res: Response) => {
+export const createCustomer = async (req: Request, res: Response) => {
   try {
     const { id, name, address, zoneId, status } = req.body;
     if (id) {
-      const company = await prisma.company.update({
+      const customer = await prisma.customer.update({
         where: {
           id: id,
         },
@@ -16,9 +16,9 @@ export const createCompany = async (req: Request, res: Response) => {
           status,
         },
       });
-      return res.status(200).json({ success: true, company: company });
+      return res.status(200).json({ success: true, customer: customer });
     }
-    const company = await prisma.company.create({
+    const customer = await prisma.customer.create({
       data: {
         name: name,
         address: address,
@@ -26,18 +26,18 @@ export const createCompany = async (req: Request, res: Response) => {
         status,
       },
     });
-    res.status(201).json({ success: true, company: company });
+    res.status(201).json({ success: true, customer: customer });
   } catch (error) {
     res.status(400).json({ success: false, error: error });
-    console.log(error); 
+    console.log(error);
   }
 };
 
-export const createManyCompanies = async (req: Request, res: Response) => {
+export const createManyCustomers = async (req: Request, res: Response) => {
   try {
-    const { companies } = req.body;
-    await prisma.company.createMany({
-      data: companies,
+    const { customers } = req.body;
+    await prisma.customer.createMany({
+      data: customers,
     });
     res.status(201).json({ success: true });
   } catch (error) {
@@ -45,7 +45,7 @@ export const createManyCompanies = async (req: Request, res: Response) => {
   }
 };
 
-export const getCompanies = async (req: Request, res: Response) => {
+export const getCustomers = async (req: Request, res: Response) => {
   try {
     const { userId } = req.query;
     const user = await prisma.user.findUnique({
@@ -64,41 +64,41 @@ export const getCompanies = async (req: Request, res: Response) => {
       where.zoneId = user.zoneId;
     }
 
-    const companies = await prisma.company.findMany({
+    const customers = await prisma.customer.findMany({
       where,
       include: {
         zone: true,
       },
     });
-    res.status(200).json({ success: true, companies: companies });
+    res.status(200).json({ success: true, customers: customers });
   } catch (error) {
     res.status(400).json({ success: false, error: error });
   }
 };
 
-export const getCompany = async (req: Request, res: Response) => {
+export const getCustomer = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const company = await prisma.company.findUnique({
+    const customer = await prisma.customer.findUnique({
       where: {
         id: id,
       },
     });
-    res.status(200).json({ success: true, company: company });
+    res.status(200).json({ success: true, customer: customer });
   } catch (error) {
     res.status(400).json({ success: false, error: error });
   }
 };
 
-export const deleteCompany = async (req: Request, res: Response) => {
+export const deleteCustomer = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const company = await prisma.company.delete({
+    const customer = await prisma.customer.delete({
       where: {
         id: id,
       },
     });
-    res.status(200).json({ success: true, company: company });
+    res.status(200).json({ success: true, customer: customer });
   } catch (error) {
     res.status(400).json({ success: false, error: error });
   }
