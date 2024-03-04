@@ -18,14 +18,13 @@ import {
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
 app.get("/", async (req: Request, res: Response) => {
   try {
-    const users = await prisma.user.findMany();
-    console.table(users);
+    res.status(200).json({ message: "Hello World" });
   } catch (error) {
     console.log("error", error);
   }
