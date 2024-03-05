@@ -73,25 +73,30 @@ enum status {
 }
 
 model OrderedItem {
-  id        String   @id @default(cuid())
-  orderId   String
-  itemId    String
-  quantity  Float
-  amount    Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  item      Item     @relation(fields: [itemId], references: [id])
-  Order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  orderId       String
+  itemId        String
+  quantity      Float
+  amount        Float
+  dispatchedQty Float    @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  item          Item     @relation(fields: [itemId], references: [id])
+  Order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 model Order {
-  id          String        @id @default(cuid())
+  id          String      @id @default(cuid())
   userId      String
   customerId  String
   total       Float
   requiredBy  String
   totalweight Float
-  status      OrderStatus   @default(ordered)
+  status      OrderStatus @default(ordered)
+
+  remarks     String?
+  vehicleno   String?
+  issueAmount Float         @default(0)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   items       OrderedItem[]
@@ -110,4 +115,5 @@ enum Role {
   SALESMAN
   MANAGER
   DISPATCHER
+  SUPPORT
 }

@@ -40,7 +40,7 @@ export const register = async (req: Request, res: Response) => {
     }
     const u = await prisma.user.findFirst();
     if (!u) {
-      role = "MANAGER";
+      role = "SUPPORT";
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
@@ -48,7 +48,7 @@ export const register = async (req: Request, res: Response) => {
         username: username,
         email: email,
         password: hashedPassword,
-        zoneId: zoneId,
+        zoneId: zoneId || null,
         role: role,
       },
     });

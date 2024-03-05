@@ -43,6 +43,9 @@ export const updateOrder = async (req: Request, res: Response) => {
       totalweight,
       items,
       userId,
+      remarks,
+      vehicleno,
+      issueAmount,
       status,
     } = req.body;
 
@@ -63,6 +66,9 @@ export const updateOrder = async (req: Request, res: Response) => {
         totalweight,
         userId,
         status,
+        remarks,
+        vehicleno,
+        issueAmount,
         items: {
           createMany: {
             data: items,
