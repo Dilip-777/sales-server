@@ -5,9 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "vercel dev",
-    "dev": "nodemon --exec ts-node src/index.ts ",
-    "deploy": "vercel deploy --prod"
+    "start": "nodemon --exec ts-node src/index.ts"
   },
   "author": "suhas",
   "license": "ISC",

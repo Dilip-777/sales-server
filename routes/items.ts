@@ -13,6 +13,6 @@ itemsRouter.get("/getItems", getItems);
 itemsRouter.post("/create", createItem);
 itemsRouter.post("/createMany", createManyItems);
 itemsRouter.get("/getItem/:id", getItem);
-itemsRouter.post("/delete/:id", deleteItem);
+itemsRouter.delete("/delete/:id", deleteItem);
 
 export default itemsRouter;

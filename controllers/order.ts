@@ -42,7 +42,6 @@ export const updateOrder = async (req: Request, res: Response) => {
       total,
       totalweight,
       items,
-      userId,
       remarks,
       vehicleno,
       issueAmount,
@@ -64,7 +63,6 @@ export const updateOrder = async (req: Request, res: Response) => {
         requiredBy,
         total,
         totalweight,
-        userId,
         status,
         remarks,
         vehicleno,
@@ -190,11 +188,12 @@ export const deleteOrder = async (req: Request, res: Response) => {
   try {
     const { id, from, to } = req.query;
     if (id) {
-      const order = await prisma.order.delete({
+      await prisma.order.delete({
         where: {
           id: id as string,
         },
       });
+      return res.status(200).json({ success: true });
     }
     if (from && to) {
       const orders = await prisma.order.deleteMany({
