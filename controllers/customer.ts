@@ -38,6 +38,7 @@ export const createManyCustomers = async (req: Request, res: Response) => {
     const { customers } = req.body;
     await prisma.customer.createMany({
       data: customers,
+      skipDuplicates: true,
     });
     res.status(201).json({ success: true });
   } catch (error) {
