@@ -89,6 +89,9 @@ export const getOrders = async (req: Request, res: Response) => {
       },
     });
 
+    if (!user)
+      return res.status(400).json({ success: false, error: "User not found" });
+
     const where: any = {};
     if (user?.role === "SALESMAN") {
       where.userId = userId as string;
@@ -98,6 +101,7 @@ export const getOrders = async (req: Request, res: Response) => {
         in: ["completed", "approved"],
       };
     }
+
     const orders = await prisma.order.findMany({
       where,
       include: {
