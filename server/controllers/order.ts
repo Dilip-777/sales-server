@@ -139,10 +139,9 @@ export const getOrderItems = async (req: Request, res: Response) => {
     }
 
     if (from && to && from !== "Invalid Date" && to !== "Invalid Date") {
-      const endDate = moment(to as string, "DD/MM/YYYY").add(1, "days");
       where.createdAt = {
         gte: moment(from as string, "DD/MM/YYYY").toDate(),
-        lte: endDate.toDate(),
+        lte: moment(to as string, "DD/MM/YYYY").toDate(),
       };
     }
     if (itemId) {
